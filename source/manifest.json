@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "Sample WebExtension",
+  "name": "Smart Reload",
   "version": "0.0.0",
 
   "icons": {
@@ -9,9 +9,9 @@
     "48": "assets/icons/favicon-48.png",
     "128": "assets/icons/favicon-128.png"
   },
-  "description": "Sample description",
+  "description": "Extension for setting tabs reload time",
   "homepage_url": "https://github.com/abhijithvijayan/web-extension-starter",
-  "short_name": "Sample Name",
+  "short_name": "Smart Reload",
 
   "permissions": [
     "activeTab",
@@ -44,8 +44,8 @@
       "48": "assets/icons/favicon-48.png",
       "128": "assets/icons/favicon-128.png"
     },
-    "default_title": "tiny title",
-    "__chrome|opera__chrome_style": false,
+    "default_title": "Smart Reload",
+    "__chrome|opera__chrome_style": true,
     "__firefox__browser_style": false
   },
 

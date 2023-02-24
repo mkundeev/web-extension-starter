@@ -1,8 +1,10 @@
-import * as React from 'react';
+import * as React from "react";
+import { browser } from "webextension-polyfill-ts";
 
-import './styles.scss';
+import "./styles.scss";
 
 const Options: React.FC = () => {
+  browser.tabs.query({ currentWindow: true }).then((res) => console.log(res));
   return (
     <div>
       <form>
@@ -23,9 +25,8 @@ const Options: React.FC = () => {
             <input type="checkbox" name="logging" /> Show the features enabled
             on each page in the console
           </label>
-
-          <p>cool cool cool</p>
         </p>
+        <p>cool cool cool</p>
       </form>
     </div>
   );
