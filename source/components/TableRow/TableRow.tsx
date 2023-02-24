@@ -8,10 +8,6 @@ interface IProps {
 const TableRow: React.FC<IProps> = ({ tab }: IProps) => {
   const [time, setTime] = React.useState(0);
 
-  React.useEffect(() => {
-    if (tab.id) browser.tabs.sendMessage(tab.id, { id: tab.id });
-  }, [tab.id]);
-  //   const [intervalId, setIntervalId] = React.useState<number>();
   const handleTimeChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
@@ -19,9 +15,8 @@ const TableRow: React.FC<IProps> = ({ tab }: IProps) => {
   };
   const startInterval = (): void => {
     if (tab.id) {
-      console.log(1);
       //   window.localStorage.setItem(String(tab.id), JSON.stringify({ time }));
-      browser.tabs.sendMessage(tab.id, { id: tab.id, time });
+      browser.runtime.sendMessage({ id: tab.id, time });
     }
 
     // if (time === 0) return;

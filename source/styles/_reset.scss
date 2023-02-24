@@ -1,8 +1,10 @@
-@import '~advanced-css-reset/dist/reset.css';
+@import "~advanced-css-reset/dist/reset.css";
 
 // Add your custom reset rules here
 
-* {
+p,
+h1,
+h2 {
   margin: 0;
   padding: 0;
   border: 0;

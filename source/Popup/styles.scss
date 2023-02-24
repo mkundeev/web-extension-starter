@@ -4,50 +4,59 @@
 
 body {
   color: $black;
-  background-color: $greyWhite;
+  background-color: $white;
 }
 
-
-#popup {
+.popup {
   min-width: 350px;
   padding: 30px 20px;
-
-  h2 {
-    font-size: 25px;
-    text-align: center;
+}
+.title {
+  font-size: 16px;
+  text-align: center;
+  font-weight: $semibold;
+  margin-bottom: 12px;
+}
+.timeLabel {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  font-size: 14px;
+  margin-bottom: 12px;
+  .input {
+    text-align: right;
   }
-
-  #options__button {
-    width: 50%;
-    background: green;
-    color: white;
-    font-weight: 500;
-    border-radius: 15px;
-    padding: 5px 10px;
-    justify-content: center;
-    margin: 20px auto;
-    cursor: pointer;
-    opacity: 0.8;
+}
+.btnsWrap {
+  display: flex;
+  justify-content: space-between;
+  .tabBtnsWrap {
     display: flex;
+    gap: 20px;
   }
+  button {
+    padding: 5px 10px;
+    min-width: 60px;
+    font-size: 14px;
+    font-weight: $semibold;
+    background-color: $skyBlue;
+    color: $white;
+    border: none;
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+      rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+      rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 
-  .links__holder {
-    ul {
-      display: flex;
-      margin-top: 1em;
-      justify-content: space-around;
-
-      li {
-        button {
-          border-radius: 25px;
-          font-size: 20px;
-          font-weight: 600;
-          padding: 10px 17px;
-          background-color: rgba(0, 0, 255, 0.7);
-          color: white;
-          cursor: pointer;
-        }
-      }
+    cursor: pointer;
+    &.start {
+      background-color: green;
+    }
+    &.stop {
+      background-color: red;
+    }
+    &:hover {
+      color: $black;
+      background-color: $skyBlue;
     }
   }
 }
