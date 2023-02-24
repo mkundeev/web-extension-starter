@@ -3,15 +3,16 @@ import { browser } from "webextension-polyfill-ts";
 
 let tabsArray: { id: number; time: number; intervalId: number }[] = [];
 
-function refresh(
-  message: {
-    id?: number;
-    time?: number;
-    action?: string;
-  },
-  sender,
-  senderRes
-): void {
+// eslint-disable-next-line consistent-return
+function refresh(message: {
+  id?: number;
+  time?: number;
+  action?: string;
+}): Promise<number> | void {
+  if (message.action === "getInterval") {
+    const tab = tabsArray.find((item) => item.id === message.id);
+    return tab ? Promise.resolve(tab?.time) : Promise.resolve(0);
+  }
   if (message.action === "stopAll") {
     tabsArray.forEach((item) => window.clearInterval(item.intervalId));
     tabsArray = [];
