@@ -8,10 +8,11 @@ const Popup: React.FC = () => {
   const [interval, setInterval] = React.useState(0);
 
   React.useEffect(() => {
+    // get activeTab TabId
     browser.tabs.query({ active: true }).then((res) => setTab(res[0]));
     if (tab?.id) {
+      // get current refresh interval from bachground
       const getInterval = async (): Promise<void> => {
-        console.log(1);
         browser.runtime
           .sendMessage({ id: tab.id, action: "getInterval" })
           .then((res: number) => setInterval(res));
@@ -19,6 +20,11 @@ const Popup: React.FC = () => {
       getInterval();
     }
   }, [tab?.id]);
+
+  const resetTime = (): void => {
+    setTime(0);
+    setInterval(0);
+  };
 
   const handleTimeChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -36,15 +42,13 @@ const Popup: React.FC = () => {
     if (tab?.id) {
       browser.runtime.sendMessage({ id: tab.id, action: "stop" });
     }
-    setTime(0);
-    setInterval(0);
+    resetTime();
   };
   const stopAllIntervals = (): void => {
     if (tab?.id) {
       browser.runtime.sendMessage({ action: "stopAll" });
     }
-    setTime(0);
-    setInterval(0);
+    resetTime();
   };
 
   return (
@@ -63,7 +67,7 @@ const Popup: React.FC = () => {
       </label>
       {interval > 0 && (
         <p className="interval">
-          Curent refresh intterval <span>{interval} sec</span>
+          Current refresh interval <span>{interval} sec</span>
         </p>
       )}
       <div className="btnsWrap">
