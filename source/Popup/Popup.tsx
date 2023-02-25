@@ -5,7 +5,7 @@ import "./styles.scss";
 const Popup: React.FC = () => {
   const [tab, setTab] = React.useState<Tabs.Tab>();
   const [time, setTime] = React.useState(0);
-  const [interval, setInterval] = React.useState(0);
+  const [interval, setInter] = React.useState(0);
 
   React.useEffect(() => {
     // get activeTab TabId
@@ -15,7 +15,7 @@ const Popup: React.FC = () => {
       const getInterval = async (): Promise<void> => {
         browser.runtime
           .sendMessage({ id: tab.id, action: "getInterval" })
-          .then((res: number) => setInterval(res));
+          .then((res: number) => setInter(res));
       };
       getInterval();
     }
@@ -23,9 +23,8 @@ const Popup: React.FC = () => {
 
   const resetTime = (): void => {
     setTime(0);
-    setInterval(0);
+    setInter(0);
   };
-
   const handleTimeChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
@@ -35,7 +34,8 @@ const Popup: React.FC = () => {
     if (time === 0) return;
     if (tab?.id) {
       browser.runtime.sendMessage({ id: tab.id, time });
-      setInterval(time);
+      setInter(time);
+      window.close();
     }
   };
   const stopInterval = (): void => {
@@ -65,14 +65,21 @@ const Popup: React.FC = () => {
         />
         <p>sec</p>
       </label>
-      {interval > 0 && (
-        <p className="interval">
-          Current refresh interval <span>{interval} sec</span>
-        </p>
-      )}
+      <div className="interval">
+        {interval > 0 && (
+          <p>
+            Current refresh interval <span>{interval} sec</span>
+          </p>
+        )}
+      </div>
       <div className="btnsWrap">
         <div className="tabBtnsWrap">
-          <button className="start" type="button" onClick={startInterval}>
+          <button
+            className="start"
+            type="button"
+            onClick={startInterval}
+            disabled={time === 0}
+          >
             Start
           </button>
           <button className="stop" type="button" onClick={stopInterval}>

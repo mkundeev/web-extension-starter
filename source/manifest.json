@@ -49,6 +49,7 @@
     "__firefox__browser_style": false
   },
 
+
   "background": {
     "scripts": [
       "js/background.bundle.js"
