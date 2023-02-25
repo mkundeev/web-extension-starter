@@ -11,7 +11,7 @@ function refresh(message: {
   // get current interval length for popup
   if (message.action === "getInterval") {
     const tab = tabsArray.find((item) => item.id === message.id);
-    return tab ? Promise.resolve(tab?.time) : Promise.resolve(0);
+    return Promise.resolve(tab ? tab?.time : 0);
   }
   // stop all intervals
   if (message.action === "stopAll") {
@@ -44,12 +44,13 @@ function refresh(message: {
         }
       });
     } else {
-      // set new interval for active tab and add new data to tabsArray
+      // set new interval for active tab
       const interval = window.setInterval(() => {
         browser.tabs
           .reload(message.id)
           .catch(() => window.clearInterval(interval));
       }, message.time * 1000);
+      // add new item to tabsArray
       tabsArray.push({
         id: message.id,
         time: message.time,

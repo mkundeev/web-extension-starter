@@ -7,19 +7,18 @@ const Popup: React.FC = () => {
   const [time, setTime] = React.useState(0);
   const [interval, setInter] = React.useState(0);
 
+  const getInterval = React.useCallback(async (): Promise<void> => {
+    browser.runtime
+      .sendMessage({ id: tab?.id, action: "getInterval" })
+      .then((res: number) => setInter(res));
+  }, [tab?.id]);
+
   React.useEffect(() => {
     // get activeTab TabId
     browser.tabs.query({ active: true }).then((res) => setTab(res[0]));
-    if (tab?.id) {
-      // get current refresh interval from bachground
-      const getInterval = async (): Promise<void> => {
-        browser.runtime
-          .sendMessage({ id: tab.id, action: "getInterval" })
-          .then((res: number) => setInter(res));
-      };
-      getInterval();
-    }
-  }, [tab?.id]);
+    // get current refresh interval from bachground
+    getInterval();
+  }, [getInterval]);
 
   const resetTime = (): void => {
     setTime(0);
@@ -32,22 +31,17 @@ const Popup: React.FC = () => {
   };
   const startInterval = (): void => {
     if (time === 0) return;
-    if (tab?.id) {
-      browser.runtime.sendMessage({ id: tab.id, time });
-      setInter(time);
-      window.close();
-    }
+    browser.runtime.sendMessage({ id: tab?.id, time });
+    setInter(time);
+    window.close();
   };
   const stopInterval = (): void => {
-    if (tab?.id) {
-      browser.runtime.sendMessage({ id: tab.id, action: "stop" });
-    }
+    if (interval === 0) return;
+    browser.runtime.sendMessage({ id: tab?.id, action: "stop" });
     resetTime();
   };
   const stopAllIntervals = (): void => {
-    if (tab?.id) {
-      browser.runtime.sendMessage({ action: "stopAll" });
-    }
+    browser.runtime.sendMessage({ action: "stopAll" });
     resetTime();
   };
 
